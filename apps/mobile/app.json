@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "TutorQatar",
+    "slug": "tutor-qatar",
+    "version": "1.0.0",
+    "scheme": "tutorqatar",
+    "orientation": "portrait",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.tutorqatar.app"
+    },
+    "android": {
+      "package": "com.tutorqatar.app",
+      "permissions": ["ACCESS_COARSE_LOCATION"]
+    },
+    "plugins": ["expo-router", "expo-notifications", "expo-secure-store"]
+  }
+}

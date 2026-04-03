@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "search": "ابحث عن مدرس",
+    "myBookings": "حجوزاتي",
+    "messages": "الرسائل",
+    "dashboard": "لوحة التحكم",
+    "signIn": "تسجيل الدخول",
+    "signOut": "تسجيل الخروج",
+    "becomeTutor": "انضم كمدرس"
+  },
+  "search": {
+    "placeholder": "ابحث عن «رياضيات»، «جيتار»، «إنجليزي»...",
+    "searchButton": "بحث",
+    "filters": "تصفية",
+    "allQatar": "كل قطر",
+    "anyType": "أي نوع",
+    "inPerson": "حضوري",
+    "online": "أونلاين",
+    "anyPrice": "أي سعر",
+    "anyRating": "أي تقييم",
+    "applyFilters": "تطبيق التصفية",
+    "tutorsFound": "تم العثور على {count} مدرس",
+    "tutorsFoundPlural": "تم العثور على {count} مدرس",
+    "noResults": "لا يوجد مدرسون. جرب تصفية مختلفة.",
+    "viewProfile": "عرض الملف",
+    "featured": "مميز",
+    "verified": "موثق",
+    "perHour": "/ساعة"
+  },
+  "tutorProfile": {
+    "bookSession": "احجز جلسة",
+    "about": "نبذة عني",
+    "availability": "الأوقات المتاحة هذا الأسبوع",
+    "reviews": "التقييمات",
+    "contactHidden": "رقم الهاتف يظهر بعد الحجز",
+    "yearsExp": "{years} سنوات خبرة",
+    "inPerson": "حضوري",
+    "online": "أونلاين",
+    "noReviews": "لا توجد تقييمات بعد."
+  },
+  "booking": {
+    "bookTitle": "احجز جلسة",
+    "sessionType": "نوع الجلسة",
+    "duration": "المدة",
+    "availableSlots": "الأوقات المتاحة",
+    "orderSummary": "ملخص الطلب",
+    "sessionFee": "رسوم الجلسة",
+    "platformFee": "رسوم المنصة",
+    "total": "الإجمالي",
+    "included": "مشمولة",
+    "continueToPayment": "المتابعة للدفع",
+    "noSlots": "لا توجد أوقات متاحة هذا الأسبوع.",
+    "myBookings": "حجوزاتي",
+    "noBookings": "لا توجد حجوزات بعد.",
+    "findTutor": "ابحث عن مدرس"
+  },
+  "auth": {
+    "signIn": "تسجيل الدخول",
+    "signUp": "إنشاء حساب",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "fullName": "الاسم الكامل",
+    "preferredLanguage": "اللغة المفضلة",
+    "createAccount": "إنشاء حساب",
+    "applyAsTutor": "التقديم كمدرس",
+    "studentSignUp": "إنشاء حساب طالب",
+    "tutorSignUp": "انضم كمدرس",
+    "orSignUpAs": "جديد هنا؟",
+    "student": "طالب",
+    "tutor": "مدرس",
+    "alreadyHaveAccount": "لديك حساب بالفعل؟",
+    "forgotPassword": "نسيت كلمة المرور؟"
+  },
+  "home": {
+    "headline": "ابحث عن المدرس المثالي في قطر",
+    "subheadline": "تواصل مع مدرسين موثقين لمواد الرياضيات والعلوم واللغات وغيرها. حضوري أو أونلاين. في كل أنحاء قطر.",
+    "findTutor": "ابحث عن مدرس",
+    "becomeTutor": "انضم كمدرس"
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "submit": "إرسال",
+    "back": "رجوع",
+    "qar": "ر.ق"
+  }
+}

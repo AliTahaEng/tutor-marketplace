@@ -16,9 +16,13 @@ const SignInSchema = z.object({
   password: z.string().min(1),
 })
 
-export type AuthResult = { error: string } | { success: true }
+// State shape used with useFormState — always { error: string }
+export type AuthState = { error: string }
 
-export async function signUpStudent(formData: FormData): Promise<AuthResult> {
+export async function signUpStudent(
+  _prevState: AuthState,
+  formData: FormData
+): Promise<AuthState> {
   const parsed = StudentSignUpSchema.safeParse({
     fullName: formData.get('fullName'),
     email: formData.get('email'),
@@ -45,7 +49,10 @@ export async function signUpStudent(formData: FormData): Promise<AuthResult> {
   redirect('/dashboard')
 }
 
-export async function signUpTutor(formData: FormData): Promise<AuthResult> {
+export async function signUpTutor(
+  _prevState: AuthState,
+  formData: FormData
+): Promise<AuthState> {
   const parsed = StudentSignUpSchema.safeParse({
     fullName: formData.get('fullName'),
     email: formData.get('email'),
@@ -72,13 +79,16 @@ export async function signUpTutor(formData: FormData): Promise<AuthResult> {
   redirect('/tutor/onboarding')
 }
 
-export async function signIn(formData: FormData): Promise<AuthResult> {
+export async function signIn(
+  _prevState: AuthState,
+  formData: FormData
+): Promise<AuthState> {
   const parsed = SignInSchema.safeParse({
     email: formData.get('email'),
     password: formData.get('password'),
   })
 
-  if (!parsed.success) return { error: 'Invalid email or password' }
+  if (!parsed.success) return { error: 'Please enter a valid email and password.' }
 
   const supabase = createClient()
   const { error } = await supabase.auth.signInWithPassword({
@@ -86,7 +96,8 @@ export async function signIn(formData: FormData): Promise<AuthResult> {
     password: parsed.data.password,
   })
 
-  if (error) return { error: 'Invalid email or password' }
+  // Don't reveal which field is wrong
+  if (error) return { error: 'Invalid email or password. Please try again.' }
   redirect('/dashboard')
 }
 

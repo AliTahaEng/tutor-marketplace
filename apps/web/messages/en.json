@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "search": "Find a Tutor",
+    "myBookings": "My Bookings",
+    "messages": "Messages",
+    "dashboard": "Dashboard",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "becomeTutor": "Become a Tutor"
+  },
+  "search": {
+    "placeholder": "Search \"Math\", \"Guitar\", \"English\"...",
+    "searchButton": "Search",
+    "filters": "Filters",
+    "allQatar": "All Qatar",
+    "anyType": "Any type",
+    "inPerson": "In-person",
+    "online": "Online",
+    "anyPrice": "Any price",
+    "anyRating": "Any rating",
+    "applyFilters": "Apply Filters",
+    "tutorsFound": "{count} tutor found",
+    "tutorsFoundPlural": "{count} tutors found",
+    "noResults": "No tutors found. Try different filters.",
+    "viewProfile": "View Profile",
+    "featured": "Featured",
+    "verified": "Verified",
+    "perHour": "/hr"
+  },
+  "tutorProfile": {
+    "bookSession": "Book a Session",
+    "about": "About",
+    "availability": "Availability this week",
+    "reviews": "Reviews",
+    "contactHidden": "Phone & WhatsApp revealed after booking",
+    "yearsExp": "{years} yrs experience",
+    "inPerson": "In-person",
+    "online": "Online",
+    "noReviews": "No reviews yet."
+  },
+  "booking": {
+    "bookTitle": "Book a Session",
+    "sessionType": "Session Type",
+    "duration": "Duration",
+    "availableSlots": "Available Slots",
+    "orderSummary": "Order Summary",
+    "sessionFee": "Session fee",
+    "platformFee": "Platform fee",
+    "total": "Total",
+    "included": "Included",
+    "continueToPayment": "Continue to Payment",
+    "noSlots": "No available slots this week.",
+    "myBookings": "My Bookings",
+    "noBookings": "No bookings yet.",
+    "findTutor": "Find a tutor"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full Name",
+    "preferredLanguage": "Preferred Language",
+    "createAccount": "Create Account",
+    "applyAsTutor": "Apply as Tutor",
+    "studentSignUp": "Create Student Account",
+    "tutorSignUp": "Join as a Tutor",
+    "orSignUpAs": "New here?",
+    "student": "Student",
+    "tutor": "Tutor",
+    "alreadyHaveAccount": "Already have an account?",
+    "forgotPassword": "Forgot password?"
+  },
+  "home": {
+    "headline": "Find the Perfect Tutor in Qatar",
+    "subheadline": "Connect with verified tutors for Math, Science, Languages and more. In-person or online. All across Qatar.",
+    "findTutor": "Find a Tutor",
+    "becomeTutor": "Become a Tutor"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "back": "Back",
+    "qar": "QAR"
+  }
+}

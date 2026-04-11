@@ -5,6 +5,14 @@ import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { DisputeForm } from './DisputeForm'
+import { CelebrationWrapper } from './CelebrationWrapper'
+
+// Server actions that return ActionResult need to be cast to the form action signature.
+// Next.js accepts these at runtime; the cast silences the TS type mismatch.
+type FormAction = (formData: FormData) => void | Promise<void>
+function toFormAction(fn: (...args: unknown[]) => unknown): FormAction {
+  return fn as unknown as FormAction
+}
 
 interface PageProps {
   params: { id: string }
@@ -65,6 +73,7 @@ export default async function BookingDetailPage({ params }: PageProps) {
 
   return (
     <div className="max-w-xl mx-auto p-4 space-y-6">
+      <CelebrationWrapper />
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm">
         <Link href="/bookings" className="text-blue-600 hover:underline">My Bookings</Link>
@@ -144,7 +153,7 @@ export default async function BookingDetailPage({ params }: PageProps) {
 
         {/* Mark complete — confirmed */}
         {isStudent && booking.status === 'confirmed' && (
-          <form action={markSessionComplete.bind(null, booking.id)}>
+          <form action={toFormAction(markSessionComplete.bind(null, booking.id))}>
             <button type="submit"
               className="w-full bg-blue-600 text-white py-2.5 rounded-xl font-medium hover:bg-blue-700 transition-colors">
               Mark Session Complete
@@ -177,13 +186,13 @@ export default async function BookingDetailPage({ params }: PageProps) {
         {/* Confirm / Decline — awaiting_confirmation */}
         {isTutor && booking.status === 'awaiting_confirmation' && (
           <div className="flex gap-3 pt-1">
-            <form action={confirmBooking.bind(null, booking.id)} className="flex-1">
+            <form action={toFormAction(confirmBooking.bind(null, booking.id))} className="flex-1">
               <button type="submit"
                 className="w-full bg-green-600 text-white py-2.5 rounded-xl font-medium hover:bg-green-700 transition-colors">
                 Confirm
               </button>
             </form>
-            <form action={declineBooking.bind(null, booking.id)} className="flex-1">
+            <form action={toFormAction(declineBooking.bind(null, booking.id))} className="flex-1">
               <button type="submit"
                 className="w-full bg-red-600 text-white py-2.5 rounded-xl font-medium hover:bg-red-700 transition-colors">
                 Decline
@@ -194,7 +203,7 @@ export default async function BookingDetailPage({ params }: PageProps) {
 
         {/* Tutor cancel — awaiting or confirmed */}
         {isTutor && ['awaiting_confirmation', 'confirmed'].includes(booking.status) && (
-          <form action={cancelBooking.bind(null, booking.id)}>
+          <form action={toFormAction(cancelBooking.bind(null, booking.id))}>
             <button type="submit"
               className="w-full border border-red-300 text-red-600 py-2 rounded-xl text-sm font-medium hover:bg-red-50 transition-colors">
               Cancel This Booking
@@ -204,7 +213,7 @@ export default async function BookingDetailPage({ params }: PageProps) {
 
         {/* Student cancel — pending_payment or awaiting_confirmation only */}
         {isStudent && ['pending_payment', 'awaiting_confirmation'].includes(booking.status) && (
-          <form action={cancelBookingAsStudent.bind(null, booking.id)}>
+          <form action={toFormAction(cancelBookingAsStudent.bind(null, booking.id))}>
             <button type="submit"
               className="w-full border border-red-300 text-red-600 py-2 rounded-xl text-sm font-medium hover:bg-red-50 transition-colors">
               Cancel This Booking

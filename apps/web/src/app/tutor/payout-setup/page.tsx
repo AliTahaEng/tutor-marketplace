@@ -17,62 +17,124 @@ export default async function PayoutSetupPage({ searchParams }: PageProps) {
     .single()
 
   return (
-    <div className="max-w-xl mx-auto p-4">
-      <h1 className="text-xl font-bold mb-2">Payout Setup</h1>
-      <p className="text-muted-foreground mb-6">
-        Connect your bank account to receive payments from sessions.
-      </p>
-
-      {searchParams.success && (
-        <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6">
-          <p className="text-green-800 font-medium">Bank account connected successfully!</p>
-          <p className="text-green-700 text-sm mt-1">
-            You will receive payouts automatically after sessions are completed.
+    <div style={{ background: 'var(--color-bg)', minHeight: '100vh' }}>
+      {/* Dark hero header */}
+      <div style={{
+        background: 'linear-gradient(135deg, var(--color-bg-dark) 0%, #3d1f00 100%)',
+        padding: '48px 32px',
+        borderBottom: '1px solid var(--color-border)',
+      }}>
+        <div style={{ maxWidth: '640px', margin: '0 auto' }}>
+          <h1 style={{ fontSize: '32px', fontWeight: 800, color: '#fff', margin: '0 0 8px' }}>
+            Payout Setup
+          </h1>
+          <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '15px', margin: 0 }}>
+            Connect your bank account to receive payments. A 15% platform fee applies per session.
           </p>
         </div>
-      )}
+      </div>
 
-      {searchParams.reauth && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
-          <p className="text-amber-800 font-medium">Please complete your bank setup</p>
-          <p className="text-amber-700 text-sm mt-1">
-            Your previous session expired. Please click below to continue.
-          </p>
-        </div>
-      )}
-
-      <div className="border rounded-xl p-5 space-y-4">
-        <div className="flex items-center gap-3">
-          <div className={`w-3 h-3 rounded-full ${profile?.stripe_account_id ? 'bg-green-500' : 'bg-gray-300'}`} />
-          <div>
-            <p className="font-medium text-sm">Stripe Connect Account</p>
-            <p className="text-muted-foreground text-xs">
-              {profile?.stripe_account_id
-                ? `Connected — ID: ${profile.stripe_account_id.slice(0, 12)}...`
-                : 'Not connected'}
+      <div style={{ maxWidth: '640px', margin: '0 auto', padding: '40px 32px' }}>
+        {/* Success / reauth banners */}
+        {searchParams.success && (
+          <div style={{
+            background: '#f0fdf4',
+            border: '1px solid #bbf7d0',
+            borderRadius: '12px',
+            padding: '16px 20px',
+            marginBottom: '24px',
+          }}>
+            <p style={{ color: '#15803d', fontWeight: 700, margin: '0 0 4px' }}>Bank account connected successfully!</p>
+            <p style={{ color: '#16a34a', fontSize: '14px', margin: 0 }}>
+              You will receive payouts automatically after sessions are completed.
             </p>
-          </div>
-        </div>
-
-        {profile?.verification_status !== 'approved' && (
-          <div className="bg-amber-50 rounded-lg p-3 text-sm text-amber-700">
-            Your profile must be approved before you can set up payouts.
           </div>
         )}
 
-        <form action="/api/stripe/connect" method="POST">
-          <button
-            type="submit"
-            disabled={profile?.verification_status !== 'approved'}
-            className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 disabled:opacity-50"
-          >
-            {profile?.stripe_account_id ? 'Update Payout Account' : 'Connect Bank Account'}
-          </button>
-        </form>
+        {searchParams.reauth && (
+          <div style={{
+            background: '#fffbeb',
+            border: '1px solid #fde68a',
+            borderRadius: '12px',
+            padding: '16px 20px',
+            marginBottom: '24px',
+          }}>
+            <p style={{ color: '#92400e', fontWeight: 700, margin: '0 0 4px' }}>Please complete your bank setup</p>
+            <p style={{ color: '#b45309', fontSize: '14px', margin: 0 }}>
+              Your previous session expired. Please click below to continue.
+            </p>
+          </div>
+        )}
 
-        <p className="text-xs text-muted-foreground text-center">
-          Powered by Stripe Connect. Platform fee: 15% per session.
-        </p>
+        {/* Main card */}
+        <div style={{
+          background: '#fff',
+          borderRadius: '20px',
+          boxShadow: 'var(--shadow-card)',
+          padding: '40px',
+          border: '1px solid var(--color-border)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
+        }}>
+          {/* Account status row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{
+              width: '12px',
+              height: '12px',
+              borderRadius: '50%',
+              background: profile?.stripe_account_id ? '#22c55e' : '#d1d5db',
+              flexShrink: 0,
+            }} />
+            <div>
+              <p style={{ fontWeight: 700, fontSize: '14px', color: 'var(--color-text)', margin: '0 0 2px' }}>
+                Stripe Connect Account
+              </p>
+              <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', margin: 0 }}>
+                {profile?.stripe_account_id
+                  ? `Connected — ID: ${profile.stripe_account_id.slice(0, 12)}...`
+                  : 'Not connected'}
+              </p>
+            </div>
+          </div>
+
+          {profile?.verification_status !== 'approved' && (
+            <div style={{
+              background: '#fffbeb',
+              borderRadius: '10px',
+              padding: '12px 16px',
+              fontSize: '14px',
+              color: '#92400e',
+            }}>
+              Your profile must be approved before you can set up payouts.
+            </div>
+          )}
+
+          <form action="/api/stripe/connect" method="POST">
+            <button
+              type="submit"
+              disabled={profile?.verification_status !== 'approved'}
+              style={{
+                width: '100%',
+                background: 'var(--color-primary)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '12px',
+                padding: '14px',
+                fontSize: '15px',
+                fontWeight: 700,
+                cursor: profile?.verification_status !== 'approved' ? 'not-allowed' : 'pointer',
+                opacity: profile?.verification_status !== 'approved' ? 0.5 : 1,
+              }}
+            >
+              {profile?.stripe_account_id ? 'Update Payout Account' : 'Connect Bank Account'}
+            </button>
+          </form>
+
+          <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', textAlign: 'center', margin: 0 }}>
+            Powered by Stripe Connect. Platform fee: 15% per session.
+          </p>
+        </div>
       </div>
     </div>
   )

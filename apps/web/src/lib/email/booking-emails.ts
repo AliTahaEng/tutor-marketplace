@@ -4,6 +4,7 @@
  */
 import { createClient } from '@supabase/supabase-js'
 import { SendGridAdapter } from '@tutor/core'
+import type { EmailTemplateId } from '@tutor/core'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -40,7 +41,7 @@ interface EmailParams {
   extraVars?: Record<string, string>
 }
 
-const EVENT_TEMPLATE: Record<EmailEvent, string> = {
+const EVENT_TEMPLATE: Record<EmailEvent, EmailTemplateId> = {
   booking_confirmed: 'booking-confirmed',
   booking_declined:  'booking-declined',
   booking_cancelled: 'booking-declined',  // reuse "declined" template

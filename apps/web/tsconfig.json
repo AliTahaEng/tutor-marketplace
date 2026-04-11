@@ -15,6 +15,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@tutor/db": [
+        "../../packages/db/src/types.ts"
       ]
     },
     "allowJs": true,

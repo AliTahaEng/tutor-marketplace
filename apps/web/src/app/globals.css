@@ -1,13 +1,57 @@
 @import "tailwindcss";
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #ffffff;
-  color: #111827;
-  line-height: 1.5;
-}
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+Arabic:wght@400;600;700&display=swap');
 
 :root {
-  --color-primary: #2563eb;
-  --color-muted: #6b7280;
+  --color-bg:            #fdf6ec;
+  --color-bg-alt:        #fdebd0;
+  --color-bg-dark:       #1c1008;
+  --color-primary:       #d97706;
+  --color-primary-hover: #b45309;
+  --color-primary-light: #fef3c7;
+  --color-gold:          #f59e0b;
+  --color-gold-bright:   #fcd34d;
+  --color-border:        #e5c99a;
+  --color-border-dark:   #f0d9b5;
+  --color-text:          #1c1917;
+  --color-text-muted:    #78350f;
+  --color-text-faint:    #a16207;
+  --shadow-card:   0 4px 20px rgba(180, 140, 70, 0.12);
+  --shadow-lift:   0 12px 40px rgba(180, 140, 70, 0.22);
+  --shadow-float:  0 8px 32px rgba(180, 140, 70, 0.18);
+  --shadow-glow:   0 0 40px rgba(217, 119, 6, 0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+  scroll-behavior: smooth;
+}
+
+html[lang="ar"] {
+  font-family: 'Noto Sans Arabic', sans-serif;
+}
+
+/* Gold shimmer skeleton animation */
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    #fdebd0 0px,
+    #fef3c7 150px,
+    #fdebd0 300px
+  );
+  background-size: 600px auto;
+  animation: shimmer 1.5s linear infinite;
+}
+
+@media (min-width: 1024px) {
+  .hero-cards { display: block !important; }
 }

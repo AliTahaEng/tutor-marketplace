@@ -38,7 +38,7 @@ export default async function BookSessionPage({ params }: PageProps) {
   }))
 
   // Build next-occurrence slots with full ISO datetime values
-  const slots = availability.map(slot => {
+  const slots = availability.map((slot: { id: string; day_of_week: number | null; start_time: string | null; end_time: string | null }) => {
     const dateTime = nextOccurrence(slot.day_of_week ?? 0, slot.start_time ?? '09:00')
     const displayDate = dateTime.toLocaleDateString('en-QA', { month: 'short', day: 'numeric' })
     return {
@@ -51,20 +51,46 @@ export default async function BookSessionPage({ params }: PageProps) {
     }
   })
 
-  return (
-    <div className="max-w-xl mx-auto p-4">
-      <h1 className="text-xl font-bold mb-1">Book a Session</h1>
-      <p className="text-gray-500 mb-6 text-sm">
-        with {(profile.profiles as any).full_name}
-      </p>
+  const tutorName = (profile.profiles as any).full_name
 
-      <BookSessionForm
-        tutorId={params.id}
-        sessionType={profile.session_type}
-        slots={slots}
-        durations={durations}
-        hourlyRateQar={hourlyRate}
-      />
+  return (
+    <div style={{ background: 'var(--color-bg)', minHeight: '100vh' }}>
+      {/* Amber gradient banner */}
+      <div style={{
+        background: 'linear-gradient(135deg, var(--color-primary), var(--color-gold))',
+        padding: '40px 32px',
+        borderBottom: '1px solid var(--color-border)',
+      }}>
+        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+          <h1 style={{ fontSize: '28px', fontWeight: 800, color: '#fff', margin: '0 0 6px' }}>
+            Book a Session
+          </h1>
+          <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '15px', margin: '0 0 8px' }}>
+            with {tutorName}
+          </p>
+          <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '14px', margin: 0 }}>
+            {hourlyRate} QAR / hr
+          </p>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: '600px', margin: '0 auto', padding: '40px 32px' }}>
+        <div style={{
+          background: '#fff',
+          borderRadius: '20px',
+          boxShadow: 'var(--shadow-card)',
+          padding: '36px',
+          border: '1px solid var(--color-border)',
+        }}>
+          <BookSessionForm
+            tutorId={params.id}
+            sessionType={profile.session_type}
+            slots={slots}
+            durations={durations}
+            hourlyRateQar={hourlyRate}
+          />
+        </div>
+      </div>
     </div>
   )
 }

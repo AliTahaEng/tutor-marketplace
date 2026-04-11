@@ -1,15 +1,25 @@
 'use client'
-
 import { useFormState, useFormStatus } from 'react-dom'
 import { signUpTutor } from '@/lib/auth/actions'
 import Link from 'next/link'
+import { GeometricPattern } from '@/components/ui/GeometricPattern'
 
 function SubmitButton() {
   const { pending } = useFormStatus()
   return (
-    <button type="submit" disabled={pending}
-      className="w-full bg-green-600 text-white py-2.5 rounded-lg font-semibold hover:bg-green-700 disabled:opacity-60 transition-colors">
-      {pending ? 'Applying…' : 'Apply as Tutor'}
+    <button
+      type="submit"
+      disabled={pending}
+      style={{
+        width: '100%',
+        background: pending ? '#d97706aa' : 'var(--color-primary)',
+        color: '#fff', border: 'none', padding: '14px', borderRadius: '12px',
+        fontWeight: 700, fontSize: '16px',
+        cursor: pending ? 'not-allowed' : 'pointer',
+        boxShadow: '0 4px 12px rgba(217,119,6,0.3)',
+      }}
+    >
+      {pending ? 'Creating account…' : 'Create Tutor Account'}
     </button>
   )
 }
@@ -19,58 +29,90 @@ const initialState = { error: '' }
 export default function TutorSignUpPage() {
   const [state, formAction] = useFormState(signUpTutor, initialState)
 
+  const inputStyle: React.CSSProperties = {
+    width: '100%', border: '1.5px solid var(--color-border)', borderRadius: '10px',
+    padding: '12px 16px', fontSize: '15px', color: 'var(--color-text)',
+    background: '#fff', outline: 'none',
+  }
+
   return (
-    <main className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border p-8 space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold">Join as a Tutor</h1>
-          <p className="text-gray-500 mt-1 text-sm">Start teaching students across Qatar</p>
-        </div>
-
-        <form action={formAction} className="space-y-4">
-          {state.error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
-              {state.error}
-            </div>
-          )}
-
-          <div>
-            <label htmlFor="fullName" className="block text-sm font-medium mb-1">Full Name</label>
-            <input id="fullName" name="fullName" type="text" required
-              className="w-full border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-1">Email</label>
-            <input id="email" name="email" type="email" required autoComplete="email"
-              className="w-full border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium mb-1">Password (min 8 chars)</label>
-            <input id="password" name="password" type="password" required minLength={8}
-              autoComplete="new-password"
-              className="w-full border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Preferred Language</label>
-            <select name="preferredLanguage"
-              className="w-full border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option value="en">English</option>
-              <option value="ar">العربية</option>
-            </select>
-          </div>
-          <SubmitButton />
-        </form>
-
-        <div className="space-y-2 text-center">
-          <p className="text-xs text-gray-500">
+    <div style={{ minHeight: '100vh', display: 'flex' }}>
+      <div style={{
+        flex: 1, position: 'relative',
+        background: 'linear-gradient(135deg, var(--color-bg-dark) 0%, #3d1f00 100%)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '60px 48px', overflow: 'hidden',
+      }}>
+        <GeometricPattern color="#f59e0b" opacity={0.08} />
+        <div style={{ position: 'relative', textAlign: 'center', color: '#fff' }}>
+          <div style={{ fontSize: '52px', marginBottom: '24px' }}>🏆</div>
+          <h2 style={{ fontSize: '28px', fontWeight: 800, marginBottom: '12px' }}>
+            Share Your Knowledge.<br />Earn in Qatar.
+          </h2>
+          <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.6 }}>
+            Join 500+ tutors earning up to 300 QAR/hr on TutorQatar.
+          </p>
+          <p style={{ marginTop: '24px', fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>
             Your profile will be reviewed by our team before going live.
           </p>
-          <p className="text-sm text-gray-500">
+          <p style={{ marginTop: '12px', fontSize: '14px', color: 'rgba(255,255,255,0.4)' }}>
             Already have an account?{' '}
-            <Link href="/sign-in" className="text-blue-600 font-medium hover:underline">Sign in</Link>
+            <Link href="/sign-in" style={{ color: 'var(--color-gold)', fontWeight: 700 }}>Sign in</Link>
           </p>
         </div>
       </div>
-    </main>
+
+      <div style={{
+        flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '60px 48px', background: '#fff',
+      }}>
+        <div style={{ width: '100%', maxWidth: '420px' }}>
+          <Link href="/" style={{ display: 'inline-block', marginBottom: '32px', fontSize: '20px', fontWeight: 800, color: '#92400e', textDecoration: 'none' }}>
+            TutorQatar
+          </Link>
+          <h1 style={{ fontSize: '28px', fontWeight: 800, marginBottom: '8px', color: 'var(--color-text)' }}>
+            Join as a Tutor
+          </h1>
+          <p style={{ fontSize: '15px', color: 'var(--color-text-muted)', marginBottom: '32px' }}>
+            Start teaching students across Qatar
+          </p>
+
+          <form action={formAction} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+            {state.error && (
+              <div style={{ background: '#fef2f2', border: '1px solid #fca5a5', color: '#dc2626', borderRadius: '10px', padding: '12px 16px', fontSize: '14px' }}>
+                {state.error}
+              </div>
+            )}
+            <div>
+              <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '6px', color: 'var(--color-text)' }}>Full Name</label>
+              <input name="fullName" type="text" required style={inputStyle} placeholder="Your full name" />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '6px', color: 'var(--color-text)' }}>Email</label>
+              <input name="email" type="email" required autoComplete="email" style={inputStyle} />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '6px', color: 'var(--color-text)' }}>Password</label>
+              <input name="password" type="password" required minLength={8} autoComplete="new-password" style={inputStyle} />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '6px', color: 'var(--color-text)' }}>Preferred Language</label>
+              <select name="preferredLanguage" style={{ ...inputStyle, cursor: 'pointer' }}>
+                <option value="en">English</option>
+                <option value="ar">العربية</option>
+              </select>
+            </div>
+            <SubmitButton />
+          </form>
+
+          <p style={{ marginTop: '24px', textAlign: 'center', fontSize: '14px', color: 'var(--color-text-muted)' }}>
+            Looking for a tutor?{' '}
+            <Link href="/sign-up/student" style={{ color: 'var(--color-primary)', fontWeight: 700, textDecoration: 'none' }}>
+              Sign up as Student
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
   )
 }

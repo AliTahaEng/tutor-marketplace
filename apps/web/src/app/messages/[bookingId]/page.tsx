@@ -110,38 +110,64 @@ export default function ChatPage({ params }: Props) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-96">
-        <div className="text-muted-foreground">Loading messages...</div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '384px', background: 'var(--color-bg)' }}>
+        <div style={{ color: 'var(--color-text-muted)' }}>Loading messages...</div>
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-64px)]">
-      <div className="border-b px-4 py-3 flex items-center gap-3">
-        <Link href={`/bookings/${params.bookingId}`} className="text-blue-600 hover:underline text-sm">
+    <div style={{ background: 'var(--color-bg)', minHeight: '100vh', display: 'flex', flexDirection: 'column', height: 'calc(100vh - 64px)' }}>
+      {/* Header */}
+      <div style={{
+        background: 'linear-gradient(135deg, var(--color-bg-alt), var(--color-primary-light))',
+        borderBottom: '1px solid var(--color-border)',
+        padding: '16px 24px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+      }}>
+        <Link href={`/bookings/${params.bookingId}`} style={{
+          color: 'var(--color-primary)',
+          textDecoration: 'none',
+          fontSize: '14px',
+          fontWeight: 600,
+        }}>
           ← Back to booking
         </Link>
-        <span className="text-sm text-muted-foreground">Chat</span>
+        <span style={{ color: 'var(--color-text-muted)', fontSize: '14px' }}>Chat</span>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
+      {/* Messages area */}
+      <div style={{
+        flex: 1,
+        overflowY: 'auto',
+        padding: '24px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px',
+      }}>
         {messages.map(msg => {
           const isOwn = msg.senderId === currentUserId
           return (
-            <div key={msg.id} className={`flex ${isOwn ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[75%] flex flex-col ${isOwn ? 'items-end' : 'items-start'}`}>
+            <div key={msg.id} style={{ display: 'flex', justifyContent: isOwn ? 'flex-end' : 'flex-start' }}>
+              <div style={{ maxWidth: '75%', display: 'flex', flexDirection: 'column', alignItems: isOwn ? 'flex-end' : 'flex-start' }}>
                 {!isOwn && (
-                  <span className="text-xs text-muted-foreground mb-1">{msg.senderName}</span>
+                  <span style={{ fontSize: '12px', color: 'var(--color-text-muted)', marginBottom: '4px' }}>
+                    {msg.senderName}
+                  </span>
                 )}
-                <div className={`rounded-2xl px-4 py-2 text-sm ${
-                  isOwn
-                    ? 'bg-blue-600 text-white rounded-tr-sm'
-                    : 'bg-slate-100 rounded-tl-sm'
-                }`}>
+                <div style={{
+                  padding: '10px 16px',
+                  fontSize: '14px',
+                  background: isOwn ? 'var(--color-primary-light)' : '#fff',
+                  color: isOwn ? '#92400e' : 'var(--color-text)',
+                  border: isOwn ? '1px solid var(--color-gold-bright)' : '1px solid var(--color-border)',
+                  borderRadius: isOwn ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
+                }}>
                   {msg.content}
                 </div>
-                <span className="text-xs text-muted-foreground mt-1">
+                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '4px' }}>
                   {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </span>
               </div>
@@ -150,7 +176,7 @@ export default function ChatPage({ params }: Props) {
         })}
 
         {messages.length === 0 && (
-          <div className="text-center text-muted-foreground py-12">
+          <div style={{ textAlign: 'center', color: 'var(--color-text-muted)', padding: '48px 0' }}>
             No messages yet. Start the conversation!
           </div>
         )}
@@ -158,20 +184,47 @@ export default function ChatPage({ params }: Props) {
         <div ref={bottomRef} />
       </div>
 
-      <form onSubmit={handleSend} className="border-t p-4 space-y-2">
-        {error && <p className="text-red-600 text-sm">{error}</p>}
-        <div className="flex gap-2">
+      {/* Input area */}
+      <form onSubmit={handleSend} style={{
+        background: '#fff',
+        borderTop: '1px solid var(--color-border)',
+        padding: '16px 24px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '8px',
+      }}>
+        {error && <p style={{ color: '#dc2626', fontSize: '14px', margin: 0 }}>{error}</p>}
+        <div style={{ display: 'flex', gap: '8px' }}>
           <input type="hidden" name="bookingId" value={params.bookingId} />
           <input
             name="content"
             placeholder="Type a message..."
             maxLength={2000}
-            className="flex-1 border rounded-full px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+            style={{
+              flex: 1,
+              border: '1.5px solid var(--color-border)',
+              borderRadius: '9999px',
+              padding: '10px 18px',
+              fontSize: '14px',
+              outline: 'none',
+              background: 'var(--color-bg)',
+              color: 'var(--color-text)',
+            }}
           />
           <button
             type="submit"
             disabled={sending}
-            className="bg-blue-600 text-white rounded-full px-5 py-2 text-sm font-semibold disabled:opacity-50 hover:bg-blue-700"
+            style={{
+              background: 'var(--color-primary)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '9999px',
+              padding: '10px 22px',
+              fontSize: '14px',
+              fontWeight: 700,
+              cursor: sending ? 'not-allowed' : 'pointer',
+              opacity: sending ? 0.5 : 1,
+            }}
           >
             Send
           </button>

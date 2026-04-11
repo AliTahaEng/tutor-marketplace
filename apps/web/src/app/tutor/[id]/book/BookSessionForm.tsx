@@ -9,7 +9,18 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 disabled:opacity-60 transition-colors"
+      style={{
+        width: '100%',
+        background: 'var(--color-primary)',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '12px',
+        padding: '14px',
+        fontSize: '15px',
+        fontWeight: 700,
+        cursor: pending ? 'not-allowed' : 'pointer',
+        opacity: pending ? 0.6 : 1,
+      }}
     >
       {pending ? 'Creating booking…' : 'Continue to Payment'}
     </button>
@@ -40,6 +51,19 @@ interface BookSessionFormProps {
 
 const initialState: BookingFormState = { error: '' }
 
+const radioOptionStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  cursor: 'pointer',
+  border: '1.5px solid var(--color-border)',
+  borderRadius: '10px',
+  padding: '10px 16px',
+  fontSize: '14px',
+  color: 'var(--color-text)',
+  background: '#fff',
+}
+
 export function BookSessionForm({
   tutorId,
   sessionType,
@@ -54,75 +78,110 @@ export function BookSessionForm({
   )
 
   return (
-    <form action={formAction} className="space-y-6">
+    <form action={formAction} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       <input type="hidden" name="tutorId" value={tutorId} />
 
       {state.error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
+        <div style={{
+          background: '#fef2f2',
+          border: '1px solid #fecaca',
+          color: '#b91c1c',
+          borderRadius: '10px',
+          padding: '12px 16px',
+          fontSize: '14px',
+        }}>
           {state.error}
         </div>
       )}
 
       <div>
-        <label className="block text-sm font-medium mb-2">Session Type</label>
-        <div className="flex gap-3">
+        <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: 'var(--color-text)', marginBottom: '10px' }}>
+          Session Type
+        </label>
+        <div style={{ display: 'flex', gap: '12px' }}>
           {sessionOptions.map(t => (
-            <label key={t} className="flex items-center gap-2 cursor-pointer border rounded-lg px-4 py-2 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50">
-              <input type="radio" name="sessionMode" value={t} required className="accent-blue-600" />
-              <span className="text-sm">{t === 'in_person' ? 'In-person' : 'Online'}</span>
+            <label key={t} style={radioOptionStyle}>
+              <input
+                type="radio"
+                name="sessionMode"
+                value={t}
+                required
+                style={{ accentColor: 'var(--color-primary)', width: '16px', height: '16px' }}
+              />
+              <span>{t === 'in_person' ? 'In-person' : 'Online'}</span>
             </label>
           ))}
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-2">Duration</label>
-        <div className="flex gap-3 flex-wrap">
+        <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: 'var(--color-text)', marginBottom: '10px' }}>
+          Duration
+        </label>
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
           {durations.map(({ minutes, amountQar }) => (
-            <label key={minutes} className="flex items-center gap-2 cursor-pointer border rounded-lg px-4 py-2 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50">
-              <input type="radio" name="durationMinutes" value={minutes} required className="accent-blue-600" />
-              <span className="text-sm">{minutes} min — <strong>{amountQar} QAR</strong></span>
+            <label key={minutes} style={radioOptionStyle}>
+              <input
+                type="radio"
+                name="durationMinutes"
+                value={minutes}
+                required
+                style={{ accentColor: 'var(--color-primary)', width: '16px', height: '16px' }}
+              />
+              <span>{minutes} min — <strong>{amountQar} QAR</strong></span>
             </label>
           ))}
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-2">Available Slots</label>
+        <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: 'var(--color-text)', marginBottom: '10px' }}>
+          Available Slots
+        </label>
         {slots.length === 0 ? (
-          <p className="text-sm text-gray-500 border rounded-lg p-4 text-center">
+          <p style={{ fontSize: '14px', color: 'var(--color-text-muted)', border: '1.5px solid var(--color-border)', borderRadius: '10px', padding: '16px', textAlign: 'center' }}>
             No availability set yet. Contact the tutor directly.
           </p>
         ) : (
-          <div className="space-y-2">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {slots.map(slot => (
-              <label key={slot.id} className="flex items-center gap-3 cursor-pointer border rounded-lg px-4 py-3 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50">
+              <label key={slot.id} style={{ ...radioOptionStyle, padding: '12px 16px' }}>
                 <input
                   type="radio"
                   name="scheduledAt"
                   value={slot.isoDateTime}
                   required
-                  className="accent-blue-600"
+                  style={{ accentColor: 'var(--color-primary)', width: '16px', height: '16px' }}
                 />
-                <span className="text-sm">{slot.displayLabel}</span>
+                <span>{slot.displayLabel}</span>
               </label>
             ))}
           </div>
         )}
       </div>
 
-      <div className="border rounded-xl p-4 bg-slate-50 text-sm space-y-1">
-        <div className="font-semibold mb-2">Order Summary</div>
-        <div className="flex justify-between text-gray-600">
+      {/* Order Summary */}
+      <div style={{
+        background: 'var(--color-primary-light)',
+        border: '1px solid var(--color-gold-bright)',
+        borderRadius: '12px',
+        padding: '16px 20px',
+        fontSize: '14px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '6px',
+      }}>
+        <div style={{ fontWeight: 700, color: '#92400e', marginBottom: '4px' }}>Order Summary</div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', color: '#78350f' }}>
           <span>Rate</span>
           <span>{hourlyRateQar} QAR/hr</span>
         </div>
-        <div className="flex justify-between text-gray-600">
+        <div style={{ display: 'flex', justifyContent: 'space-between', color: '#78350f' }}>
           <span>Platform fee (15%)</span>
           <span>Included in total</span>
         </div>
-        <div className="flex justify-between text-gray-600 text-xs pt-1 border-t">
-          <span>Payment held until session complete</span>
+        <div style={{ borderTop: '1px solid var(--color-gold-bright)', paddingTop: '6px', marginTop: '2px', color: '#92400e', fontSize: '12px' }}>
+          Payment held until session complete
         </div>
       </div>
 

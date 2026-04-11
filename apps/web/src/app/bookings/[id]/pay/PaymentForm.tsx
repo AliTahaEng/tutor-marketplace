@@ -27,7 +27,7 @@ function CheckoutForm({ bookingId }: { bookingId: string }) {
     const { error: confirmError } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}/bookings/${bookingId}?paid=true`,
+        return_url: `${window.location.origin}/bookings/${bookingId}?success=true`,
       },
     })
 

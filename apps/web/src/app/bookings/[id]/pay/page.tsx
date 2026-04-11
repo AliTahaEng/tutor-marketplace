@@ -16,49 +16,100 @@ export default async function PayPage({ params }: PageProps) {
 
   if (booking.status !== 'pending_payment') {
     return (
-      <div className="max-w-md mx-auto p-4 text-center py-12">
-        <p className="text-muted-foreground mb-4">
-          This booking is already <strong>{booking.status.replace(/_/g, ' ')}</strong>.
-        </p>
-        <Link href={`/bookings/${params.id}`} className="text-blue-600 hover:underline">
-          View booking
-        </Link>
+      <div style={{ background: 'var(--color-bg)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 32px' }}>
+        <div style={{ textAlign: 'center', maxWidth: '400px' }}>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }}>✅</div>
+          <p style={{ fontSize: '16px', color: 'var(--color-text-muted)', marginBottom: '20px' }}>
+            This booking is already <strong style={{ color: 'var(--color-text)' }}>{booking.status.replace(/_/g, ' ')}</strong>.
+          </p>
+          <Link href={`/bookings/${params.id}`} style={{
+            color: 'var(--color-primary)', fontWeight: 700, textDecoration: 'none', fontSize: '15px',
+          }}>
+            View booking →
+          </Link>
+        </div>
       </div>
     )
   }
 
+  const tutorProfile = (booking as any).tutor_profiles as any
+  const tutorName = tutorProfile?.profiles?.full_name ?? 'Tutor'
+  const scheduledDate = new Date(booking.scheduled_at).toLocaleDateString('en-QA', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+    hour: '2-digit', minute: '2-digit',
+  })
+
   return (
-    <div className="max-w-md mx-auto p-4">
-      <div className="flex items-center gap-2 mb-6">
-        <Link href={`/bookings/${params.id}`} className="text-blue-600 hover:underline text-sm">
-          Booking
-        </Link>
-        <span className="text-muted-foreground">/</span>
-        <span className="text-sm">Payment</span>
+    <div style={{ background: 'var(--color-bg)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 32px' }}>
+      <div style={{ width: '100%', maxWidth: '520px' }}>
+        {/* Breadcrumb */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '28px', fontSize: '14px' }}>
+          <Link href={`/bookings/${params.id}`} style={{ color: 'var(--color-primary)', textDecoration: 'none', fontWeight: 600 }}>
+            ← Back to booking
+          </Link>
+        </div>
+
+        {/* Session summary card */}
+        <div style={{
+          background: 'linear-gradient(135deg, var(--color-primary-light), #fff)',
+          border: '1px solid var(--color-gold-bright)',
+          borderRadius: '20px',
+          padding: '28px',
+          marginBottom: '24px',
+          boxShadow: 'var(--shadow-card)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+            <div style={{
+              width: '44px', height: '44px', borderRadius: '50%',
+              background: 'linear-gradient(135deg, var(--color-primary), var(--color-gold))',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '20px', flexShrink: 0,
+            }}>
+              🎓
+            </div>
+            <div>
+              <p style={{ fontWeight: 800, fontSize: '16px', color: 'var(--color-text)', margin: 0 }}>{tutorName}</p>
+              <p style={{ fontSize: '13px', color: 'var(--color-text-muted)', margin: 0 }}>{scheduledDate}</p>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {[
+              { label: 'Duration', value: `${booking.duration_minutes} minutes` },
+              { label: 'Rate', value: `${booking.hourly_rate_qar} QAR/hr` },
+              { label: 'Platform fee (15%)', value: `${booking.platform_fee_qar} QAR` },
+            ].map(item => (
+              <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>{item.label}</span>
+                <span style={{ fontSize: '14px', color: 'var(--color-text)', fontWeight: 600 }}>{item.value}</span>
+              </div>
+            ))}
+            <div style={{
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              borderTop: '1px solid var(--color-gold-bright)', paddingTop: '12px', marginTop: '4px',
+            }}>
+              <span style={{ fontSize: '16px', fontWeight: 800, color: 'var(--color-text)' }}>Total</span>
+              <span style={{ fontSize: '22px', fontWeight: 800, color: 'var(--color-primary)' }}>
+                {booking.total_amount_qar} QAR
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Payment form */}
+        <div style={{
+          background: '#fff',
+          border: '1px solid var(--color-border)',
+          borderRadius: '20px',
+          padding: '32px',
+          boxShadow: 'var(--shadow-card)',
+        }}>
+          <h1 style={{ fontSize: '22px', fontWeight: 800, color: 'var(--color-text)', margin: '0 0 24px' }}>
+            Complete Payment
+          </h1>
+          <PaymentForm bookingId={params.id} amountQar={Number(booking.total_amount_qar)} />
+        </div>
       </div>
-
-      <h1 className="text-xl font-bold mb-6">Complete Payment</h1>
-
-      <div className="border rounded-xl p-4 mb-6 space-y-2 text-sm">
-        <div className="flex justify-between">
-          <span className="text-muted-foreground">Session duration</span>
-          <span>{booking.duration_minutes} minutes</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-muted-foreground">Session fee</span>
-          <span>{booking.hourly_rate_qar} QAR/hr</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-muted-foreground">Platform fee (15%)</span>
-          <span>{booking.platform_fee_qar} QAR</span>
-        </div>
-        <div className="flex justify-between font-bold text-base border-t pt-2">
-          <span>Total</span>
-          <span>{booking.total_amount_qar} QAR</span>
-        </div>
-      </div>
-
-      <PaymentForm bookingId={params.id} amountQar={Number(booking.total_amount_qar)} />
     </div>
   )
 }
